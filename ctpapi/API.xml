@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<ctp>
+    <BrokerID>9999</BrokerID>
+    <UserID>068023</UserID>
+    <Password>hongxing142101</Password>
+    <servers>
+        <Trader>
+            <item>tcp://180.168.146.187:10030</item>
+        </Trader>
+        <MarketData>
+            <item>tcp://180.168.146.187:10031</item>
+        </MarketData>
+    </servers>
+</ctp>
