@@ -88,6 +88,8 @@ public:
 
 	virtual int ReqUserLogout(CThostFtdcUserLogoutField *pUserLogout, int nRequestID);
 
+	virtual const char* GetTradingDay();
+
 	void init();
 
 	void connect();
@@ -111,13 +113,11 @@ private:
 
 public:
 	std::vector<std::string> instrument_vector;
-	std::map<std::string, CThostFtdcInstrumentField*> instrument_info;
-	std::map<std::string, std::string> instrument_exchange;
-	std::map<std::string, std::string> instrument_product;
+	std::map<std::string, CThostFtdcInstrumentField> instrument_info;
 
 	explicit TdApi(CTPAPI * ctpapi) { this->ctpapi = ctpapi; }
 
-	bool get_is_instrument_finished() { return onrspqryinstrument_finished; }
+	bool get_if_instrument_finished() { return onrspqryinstrument_finished; }
 
 	//---------------------------------------
 	// ctp api »Øµ÷º¯Êý

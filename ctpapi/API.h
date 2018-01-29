@@ -2,11 +2,29 @@
 #ifndef API_H
 #define API_H
 
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64) || defined(_WINDOWS)
+#define __PLATFORM_WINDOWS__
+#else
+#define __PLATFORM_LINUX__
+#endif
+
+#ifdef __PLATFORM_WINDOWS__
+#ifdef  CTPAPI_EXPORTS
+#define CTPAPI_API __declspec(dllexport)
+#else
+#define CTPAPI_API __declspec(dllimport)
+#endif
+#endif
+
+#ifdef __PLATFORM_LINUX__
+#define CTPAPI_API
+#endif
+
 #include <Windows.h>
 #include "CTPAPI.h"
 
 
-class __declspec(dllexport) CTPAPI
+class CTPAPI_API CTPAPI
 {
 public:
 	std::atomic_int nReq = 1;
@@ -20,6 +38,8 @@ public:
 
 	//订阅全部合约行情
 	int SubscribeMarketData(std::vector<std::string> &InstrumentID);
+
+	const char* GetTradingDay();
 
 	void onTick(std::shared_ptr<Event>e)
 	{
@@ -64,7 +84,7 @@ public:
 		return &this->tdapi->instrument_vector;
 	}
 
-	const std::map<std::string, CThostFtdcInstrumentField*> *get_instrument_info()
+	const std::map<std::string, CThostFtdcInstrumentField> *get_instrument_info()
 	{
 		return &this->tdapi->instrument_info;
 	}

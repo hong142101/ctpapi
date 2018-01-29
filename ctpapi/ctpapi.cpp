@@ -113,6 +113,11 @@ int MdApi::ReqUserLogout(CThostFtdcUserLogoutField *pUserLogout, int nRequestID)
 	return i;
 }
 
+const char* MdApi::GetTradingDay()
+{
+	return this->api->GetTradingDay();
+}
+
 
 /////////////////////////////////////////////////////////////////////////
 void TdApi::OnFrontConnected()
@@ -159,12 +164,10 @@ void TdApi::OnRspQryInstrument(CThostFtdcInstrumentField *pInstrument, CThostFtd
 {
 	if (pInstrument->ProductClass == THOST_FTDC_PC_Futures)
 	{
-		std::cout << "onrspqry InstrumentID: " << pInstrument->InstrumentID << std::endl;
 		this->spi_mutex.lock();
+		std::cout << "onrspqry InstrumentID: " << pInstrument->InstrumentID << std::endl;
 		this->instrument_vector.push_back(pInstrument->InstrumentID);
-		this->instrument_info[pInstrument->InstrumentID] = pInstrument;
-		this->instrument_exchange[pInstrument->InstrumentID] = pInstrument->ExchangeID;
-		this->instrument_product[pInstrument->InstrumentID] = pInstrument->ProductID;
+		this->instrument_info[pInstrument->InstrumentID] = *pInstrument;
 		this->spi_mutex.unlock();
 	}
 	if (bIsLast)
